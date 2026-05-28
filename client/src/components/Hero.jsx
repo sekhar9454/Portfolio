@@ -1,15 +1,23 @@
-import { FaEnvelope, FaPhone, FaOrcid, FaMapMarkerAlt } from 'react-icons/fa';
-import { useEffect, useState } from 'react';
+import { FaEnvelope, FaPhone, FaOrcid } from 'react-icons/fa';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function Hero({ data }) {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
+  const timerRef = useRef(null);
 
   useEffect(() => {
-    setVisible(false);
-    const timer = setTimeout(() => setVisible(true), 50);
-    return () => clearTimeout(timer);
+    // Use a ref-based approach to avoid calling setState synchronously in the effect body
+    timerRef.current = requestAnimationFrame(() => {
+      setVisible(false);
+      timerRef.current = requestAnimationFrame(() => {
+        setVisible(true);
+      });
+    });
+    return () => {
+      if (timerRef.current) cancelAnimationFrame(timerRef.current);
+    };
   }, [location.pathname]);
 
   if (!data) return null;
@@ -41,7 +49,7 @@ export default function Hero({ data }) {
               }}
             >
               
-              <img src="image.png" alt="ProfilePhoto" className='size-full'/>
+              <img src="/image.png" alt="ProfilePhoto" className='size-full'/>
             </div>
           </div>
 

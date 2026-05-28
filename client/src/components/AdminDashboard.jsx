@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import {
   FaSignOutAlt, FaPlus, FaEdit, FaTrash, FaBlog,
@@ -33,12 +33,8 @@ export default function AdminDashboard() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  // Fetch data
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  // Fetch data — used for initial load and manual refresh after mutations
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const [blogsRes, pubsRes] = await Promise.all([
@@ -47,12 +43,16 @@ export default function AdminDashboard() {
       ]);
       setBlogs(blogsRes.data);
       setPublications(pubsRes.data);
-    } catch (err) {
+    } catch {
       showToast('Failed to load data', 'error');
     } finally {
       setLoading(false);
     }
-  };
+  }, [authAxios]);
+
+  // Initial data load
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { fetchData(); }, [fetchData]);
 
   // ===== Blog CRUD =====
   const openBlogForm = (blog = null) => {
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
       showToast('Blog deleted');
       setDeleteConfirm(null);
       fetchData();
-    } catch (err) {
+    } catch {
       showToast('Failed to delete blog', 'error');
     }
   };
@@ -160,7 +160,7 @@ export default function AdminDashboard() {
       showToast('Publication deleted');
       setDeleteConfirm(null);
       fetchData();
-    } catch (err) {
+    } catch {
       showToast('Failed to delete publication', 'error');
     }
   };

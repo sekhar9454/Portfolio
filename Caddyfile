@@ -1,0 +1,11 @@
+amskrishna.in, www.amskrishna.in {
+    # API requests go directly to the backend server
+    handle /api/* {
+        reverse_proxy prof-portfolio-server:5000
+    }
+
+    # Everything else goes to the React client (nginx)
+    handle {
+        reverse_proxy prof-portfolio-client:80
+    }
+}

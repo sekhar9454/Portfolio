@@ -1,15 +1,22 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function Section({ title, icon, alt = false, children }) {
   const [visible, setVisible] = useState(false);
   const location = useLocation();
+  const timerRef = useRef(null);
 
   // Trigger fade-in animation on mount/route change
   useEffect(() => {
-    setVisible(false);
-    const timer = setTimeout(() => setVisible(true), 50);
-    return () => clearTimeout(timer);
+    timerRef.current = requestAnimationFrame(() => {
+      setVisible(false);
+      timerRef.current = requestAnimationFrame(() => {
+        setVisible(true);
+      });
+    });
+    return () => {
+      if (timerRef.current) cancelAnimationFrame(timerRef.current);
+    };
   }, [location.pathname]);
 
   return (

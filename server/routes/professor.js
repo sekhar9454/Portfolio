@@ -1,5 +1,6 @@
 import express from 'express';
 import Professor from '../models/Professor.js';
+import { authMiddleware } from '../middleware/auth.js';
 import Publication from '../models/Publication.js';
 
 const router = express.Router();
@@ -45,7 +46,7 @@ router.get('/professor', async (req, res) => {
   }
 });
 
-router.put('/professor/:id', async (req, res) => {
+router.put('/professor/:id', authMiddleware, async (req, res) => {
   try {
     const professor = await Professor.findByIdAndUpdate(req.params.id, req.body, { new: true });
     res.json(professor);
