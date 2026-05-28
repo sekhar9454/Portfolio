@@ -94,7 +94,7 @@ export default function Hero({ data }) {
                 {data.researchInterests?.map((interest, i) => (
                   <span
                     key={i}
-                    className="px-2.5 md:px-3 py-1 md:py-1.5 rounded-full text-xs font-semibold transition-all hover:scale-105"
+                    className="px-4 md:px-3 py-1 md:py-1.5 rounded-full text-xs font-semibold transition-all hover:scale-105"
                     style={{
                       backgroundColor: 'var(--color-badge-bg)',
                       color: 'var(--color-badge-text)',
