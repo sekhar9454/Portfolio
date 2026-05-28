@@ -5,3 +5,9 @@
 /.env
 .DS_Store
 *.log
+
+# Atlas db credential to be added later
+# G9w2HizhGCecWYQU  
+# sharmasanskar7201_db_user
+
+# mongodb+srv://sharmasanskar7201_db_user:G9w2HizhGCecWYQU@cluster0.qrgfmxf.mongodb.net/?appName=Cluster0
