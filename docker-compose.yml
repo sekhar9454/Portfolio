@@ -2,8 +2,6 @@ services:
   server:
     build: ./server
     container_name: prof-portfolio-server
-    ports:
-      - "5000:5000"
     env_file:
       - ./server/.env
     environment:
@@ -21,9 +19,25 @@ services:
   client:
     build: ./client
     container_name: prof-portfolio-client
+    depends_on:
+      - server
+    restart: unless-stopped
+    networks:
+      - app-network
+
+  caddy:
+    image: caddy:2-alpine
+    container_name: prof-portfolio-caddy
     ports:
       - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
     depends_on:
+      - client
       - server
     restart: unless-stopped
     networks:
@@ -32,3 +46,7 @@ services:
 networks:
   app-network:
     driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
