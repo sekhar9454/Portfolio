@@ -21,7 +21,7 @@ export default function Skills({ data }) {
             className="rounded-xl p-6 border transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
             style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
           >
-            <div className="flex items-center gap-3 mb-4">
+            <div className="flex items-center gap-3 mb-5">
               <span className="text-xl" style={{ color: 'var(--color-accent)' }}>
                 {iconMap[cat.category] || <FaTools />}
               </span>
@@ -44,22 +44,22 @@ export default function Skills({ data }) {
 
       {/* Professional Memberships */}
       {data.professionalMembership?.length > 0 && (
-        <div className="mt-12">
-          <h3 className="text-xl font-bold mb-6" style={{ color: 'var(--color-text)' }}>Professional Memberships</h3>
-          <div className="grid md:grid-cols-3 gap-4">
+        <div className="mt-16">
+          <h3 className="text-xl font-bold mb-8" style={{ color: 'var(--color-text)' }}>Professional Memberships</h3>
+          <div className="grid md:grid-cols-3 gap-6">
             {data.professionalMembership.map((m, i) => (
               <div
                 key={i}
-                className="rounded-xl p-5 border text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                className="rounded-xl p-6 border text-center transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                 style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
               >
                 <div
-                  className="w-14 h-14 rounded-full mx-auto mb-3 flex items-center justify-center text-lg font-extrabold text-white"
+                  className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center text-lg font-extrabold text-white"
                   style={{ background: `linear-gradient(135deg, var(--color-primary), var(--color-accent))` }}
                 >
                   {m.organization}
                 </div>
-                <p className="text-xs font-mono mb-1" style={{ color: 'var(--color-text-secondary)' }}>ID: {m.id}</p>
+                <p className="text-xs font-mono mb-2" style={{ color: 'var(--color-text-secondary)' }}>ID: {m.id}</p>
                 <p className="text-xs" style={{ color: 'var(--color-text-secondary)' }}>{m.details}</p>
               </div>
             ))}

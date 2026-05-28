@@ -13,7 +13,7 @@ export default function Contact({ data }) {
 
   return (
     <Section id="contact" title="Contact" icon={<FaEnvelope />} alt>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {items.map((item, i) => (
           <div
             key={i}
@@ -21,12 +21,12 @@ export default function Contact({ data }) {
             style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
           >
             <div
-              className="w-14 h-14 rounded-full mx-auto mb-4 flex items-center justify-center text-xl transition-all group-hover:scale-110"
+              className="w-14 h-14 rounded-full mx-auto mb-5 flex items-center justify-center text-xl transition-all group-hover:scale-110"
               style={{ backgroundColor: 'var(--color-badge-bg)', color: 'var(--color-accent)' }}
             >
               {item.icon}
             </div>
-            <h4 className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: 'var(--color-text-secondary)' }}>
+            <h4 className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: 'var(--color-text-secondary)' }}>
               {item.label}
             </h4>
             {item.href ? (
@@ -40,7 +40,7 @@ export default function Contact({ data }) {
                 {item.value}
               </a>
             ) : (
-              <p className="text-sm" style={{ color: 'var(--color-text)' }}>{item.value}</p>
+              <p className="text-sm leading-relaxed" style={{ color: 'var(--color-text)' }}>{item.value}</p>
             )}
           </div>
         ))}
@@ -48,8 +48,8 @@ export default function Contact({ data }) {
 
       {/* Languages */}
       {data.languages?.length > 0 && (
-        <div className="mt-10 text-center">
-          <h3 className="text-sm font-semibold uppercase tracking-wider mb-4" style={{ color: 'var(--color-text-secondary)' }}>
+        <div className="mt-12 text-center">
+          <h3 className="text-sm font-semibold uppercase tracking-wider mb-5" style={{ color: 'var(--color-text-secondary)' }}>
             Languages
           </h3>
           <div className="flex justify-center gap-3 flex-wrap">

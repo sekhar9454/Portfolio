@@ -17,11 +17,11 @@ export default function Blogs() {
 
   return (
     <Section id="blogs" title="Blog & Insights" icon={<FaBlog />} alt>
-      <div className="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-1 gap-6 w-full">
+      <div className="space-y-6">
         {blogs.map(blog => (
           <article
             key={blog._id}
-            className="rounded-xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group p-10"
+            className="rounded-xl border overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-xl group"
             style={{ backgroundColor: 'var(--color-card)', borderColor: 'var(--color-border)' }}
           >
             {/* Header gradient bar */}
@@ -29,19 +29,19 @@ export default function Blogs() {
 
             <div className="p-6">
               <h3
-                className="font-bold text-lg mb-2 transition-colors"
+                className="font-bold text-lg mb-3 transition-colors"
                 style={{ color: 'var(--color-text)', fontFamily: "'Playfair Display', serif" }}
               >
                 {blog.title}
               </h3>
 
-              <div className="flex flex-wrap items-center gap-3 mb-3 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
-                <span className="flex items-center gap-1">
+              <div className="flex flex-wrap items-center gap-3 mb-4 text-xs" style={{ color: 'var(--color-text-secondary)' }}>
+                <span className="flex items-center gap-1.5">
                   <FaCalendar size={10} />
                   {new Date(blog.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                 </span>
                 {blog.tags?.length > 0 && (
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1.5">
                     <FaTag size={10} />
                     {blog.tags.join(', ')}
                   </span>
@@ -49,7 +49,7 @@ export default function Blogs() {
               </div>
 
               <p
-                className="text-sm leading-relaxed mb-4 p-4"
+                className="text-sm leading-relaxed mb-5"
                 style={{ color: 'var(--color-text-secondary)' }}
               >
                 {expanded === blog._id ? blog.content : blog.excerpt}

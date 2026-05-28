@@ -19,6 +19,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const location = useLocation();
   const activePath = location.pathname;
+  const isHero = activePath === '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -37,29 +38,37 @@ export default function Navbar() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
+  // On non-hero pages or when scrolled, always show solid background
+  const showSolid = !isHero || scrolled;
+
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-        scrolled ? 'shadow-xl' : ''
+        showSolid ? 'shadow-lg' : ''
       }`}
       style={{
-        backgroundColor: scrolled ? 'var(--color-primary)' : 'transparent',
-        backdropFilter: scrolled ? 'blur(12px)' : 'none',
+        backgroundColor: showSolid ? 'var(--color-primary)' : 'transparent',
+        backdropFilter: showSolid ? 'blur(12px)' : 'none',
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-around h-16 ">
-          <Link to="/" className="text-white font-bold text-lg tracking-wide flex-shrink-0 ">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <Link to="/" className="text-white font-bold text-lg tracking-wide flex-shrink-0">
             Dr. A.M. Sivakrishna
           </Link>
 
           {/* Desktop Links */}
-          <div className="hidden xl:flex items-center gap-1.5">
+          <div className="hidden xl:flex items-center gap-1">
             {navLinks.map(link => (
               <Link
                 key={link.id}
                 to={link.id}
-                className={`px-2.5 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 whitespace-nowrap ${
                   activePath === link.id
                     ? 'bg-white/20 text-white'
                     : 'text-white/70 hover:text-white hover:bg-white/10'
@@ -88,7 +97,7 @@ export default function Navbar() {
         }`}
         style={{ backgroundColor: 'var(--color-primary)' }}
       >
-        <div className="px-4 pb-4 space-y-1">
+        <div className="px-6 pb-4 space-y-1">
           {navLinks.map(link => (
             <Link
               key={link.id}
