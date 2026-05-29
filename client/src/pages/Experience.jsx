@@ -1,4 +1,4 @@
-import Section from './Section';
+import Section from '../components/Section';
 import { FaBriefcase } from 'react-icons/fa';
 
 export default function Experience({ data }) {

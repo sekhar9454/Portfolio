@@ -1,21 +1,11 @@
-import express from 'express';
-import rateLimit from 'express-rate-limit';
-import Admin from '../models/Admin.js';
-import { generateToken, authMiddleware } from '../middleware/auth.js';
+import Admin from '../models/admin.model.js';
+import { generateToken } from '../middleware/auth.middleware.js';
 
-const router = express.Router();
-
-// Rate limit login attempts: 10 per 15 minutes per IP
-const loginLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  message: { message: 'Too many login attempts. Please try again after 15 minutes.' },
-  standardHeaders: true,
-  legacyHeaders: false,
-});
-
-// POST /api/auth/login
-router.post('/login', loginLimiter, async (req, res) => {
+/**
+ * POST /api/auth/login
+ * Validates credentials and returns a JWT token.
+ */
+export const login = async (req, res) => {
   try {
     const { username, password } = req.body;
 
@@ -44,10 +34,13 @@ router.post('/login', loginLimiter, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
 
-// GET /api/auth/me — returns current admin info
-router.get('/me', authMiddleware, async (req, res) => {
+/**
+ * GET /api/auth/me
+ * Returns the currently authenticated admin's profile.
+ */
+export const getMe = async (req, res) => {
   try {
     const admin = await Admin.findById(req.adminId).select('-passwordHash');
     if (!admin) {
@@ -57,6 +50,4 @@ router.get('/me', authMiddleware, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
-
-export default router;
+};

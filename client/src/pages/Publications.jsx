@@ -1,4 +1,4 @@
-import Section from './Section';
+import Section from '../components/Section';
 import { FaBookOpen, FaExternalLinkAlt } from 'react-icons/fa';
 
 export default function Publications({ data }) {

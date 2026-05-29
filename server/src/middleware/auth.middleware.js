@@ -1,12 +1,19 @@
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error('FATAL: JWT_SECRET environment variable is not set. Server cannot start without it.');
+/**
+ * Returns the JWT secret, throwing if it's missing.
+ * Resolved lazily so dotenv.config() has time to load first.
+ */
+function getJwtSecret() {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    throw new Error('FATAL: JWT_SECRET environment variable is not set.');
+  }
+  return secret;
 }
 
 export function generateToken(adminId) {
-  return jwt.sign({ id: adminId }, JWT_SECRET, { expiresIn: '24h' });
+  return jwt.sign({ id: adminId }, getJwtSecret(), { expiresIn: '24h' });
 }
 
 export function authMiddleware(req, res, next) {
@@ -19,7 +26,7 @@ export function authMiddleware(req, res, next) {
   const token = authHeader.split(' ')[1];
 
   try {
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, getJwtSecret());
     req.adminId = decoded.id;
     next();
   } catch (err) {

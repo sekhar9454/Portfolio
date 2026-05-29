@@ -1,4 +1,4 @@
-import Section from './Section';
+import Section from '../components/Section';
 import { FaEnvelope, FaPhone, FaOrcid, FaMapMarkerAlt, FaGlobe } from 'react-icons/fa';
 
 export default function Contact({ data }) {

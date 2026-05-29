@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import Professor from './models/Professor.js';
-import Admin from './models/Admin.js';
-import Blog from './models/Blog.js';
-import Publication from './models/Publication.js';
+import Professor from './src/models/professor.model.js';
+import Admin from './src/models/admin.model.js';
+import Blog from './src/models/blog.model.js';
+import Publication from './src/models/publication.model.js';
 
 dotenv.config();
 

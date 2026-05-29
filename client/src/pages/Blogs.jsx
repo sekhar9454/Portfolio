@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import Section from './Section';
+import Section from '../components/Section';
 import { FaBlog, FaCalendar, FaTag } from 'react-icons/fa';
 
 export default function Blogs() {

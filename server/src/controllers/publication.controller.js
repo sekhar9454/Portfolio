@@ -1,11 +1,10 @@
-import express from 'express';
-import Publication from '../models/Publication.js';
-import { authMiddleware } from '../middleware/auth.js';
+import Publication from '../models/publication.model.js';
 
-const router = express.Router();
-
-// GET /api/publications — public, list all publications
-router.get('/', async (req, res) => {
+/**
+ * GET /api/publications
+ * Returns all publications, optionally filtered by ?type=journal|conference.
+ */
+export const getAll = async (req, res) => {
   try {
     const filter = {};
     if (req.query.type) filter.type = req.query.type;
@@ -14,10 +13,13 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
 
-// GET /api/publications/:id — public, get single publication
-router.get('/:id', async (req, res) => {
+/**
+ * GET /api/publications/:id
+ * Returns a single publication by ID.
+ */
+export const getById = async (req, res) => {
   try {
     const pub = await Publication.findById(req.params.id);
     if (!pub) return res.status(404).json({ message: 'Publication not found.' });
@@ -25,20 +27,26 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
+};
 
-// POST /api/publications — protected, create publication
-router.post('/', authMiddleware, async (req, res) => {
+/**
+ * POST /api/publications
+ * Creates a new publication.
+ */
+export const create = async (req, res) => {
   try {
     const pub = await Publication.create(req.body);
     res.status(201).json(pub);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
-});
+};
 
-// PUT /api/publications/:id — protected, update publication
-router.put('/:id', authMiddleware, async (req, res) => {
+/**
+ * PUT /api/publications/:id
+ * Updates an existing publication.
+ */
+export const update = async (req, res) => {
   try {
     const pub = await Publication.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
     if (!pub) return res.status(404).json({ message: 'Publication not found.' });
@@ -46,10 +54,13 @@ router.put('/:id', authMiddleware, async (req, res) => {
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
-});
+};
 
-// DELETE /api/publications/:id — protected, delete publication
-router.delete('/:id', authMiddleware, async (req, res) => {
+/**
+ * DELETE /api/publications/:id
+ * Deletes a publication.
+ */
+export const remove = async (req, res) => {
   try {
     const pub = await Publication.findByIdAndDelete(req.params.id);
     if (!pub) return res.status(404).json({ message: 'Publication not found.' });
@@ -57,6 +68,4 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
-});
-
-export default router;
+};

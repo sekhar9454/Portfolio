@@ -1,4 +1,4 @@
-import Section from './Section';
+import Section from '../components/Section';
 import { FaCode, FaBrain, FaShieldAlt, FaTools, FaDesktop } from 'react-icons/fa';
 
 const iconMap = {

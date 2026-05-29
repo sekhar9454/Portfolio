@@ -1,4 +1,4 @@
-import Section from './Section';
+import Section from '../components/Section';
 import { FaTrophy, FaMedal, FaAward, FaCertificate, FaVolleyballBall } from 'react-icons/fa';
 
 const awardIcons = {
