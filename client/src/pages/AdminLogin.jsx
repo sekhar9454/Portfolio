@@ -128,8 +128,19 @@ export default function AdminLogin() {
           </button>
         </form>
 
+        {/* Forgot Password */}
+        <div className="text-center mt-5">
+          <a
+            href="#/admin/forgot-password"
+            className="text-xs font-medium transition-colors hover:underline"
+            style={{ color: 'var(--color-accent)' }}
+          >
+            Forgot Password?
+          </a>
+        </div>
+
         {/* Back link */}
-        <div className="text-center mt-6">
+        <div className="text-center mt-3">
           <a
             href="#/"
             className="text-xs text-white/40 hover:text-white/70 transition-colors"

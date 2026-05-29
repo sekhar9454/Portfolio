@@ -17,6 +17,7 @@ import Blogs from './pages/Blogs';
 import Contact from './pages/Contact';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
+import ForgotPassword from './pages/ForgotPassword';
 import './App.css';
 
 function AppContent() {
@@ -78,6 +79,7 @@ function AppContent() {
             <AdminPage />
           </AuthProvider>
         } />
+        <Route path="/admin/forgot-password" element={<ForgotPassword />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Footer data={data} />

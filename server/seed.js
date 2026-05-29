@@ -243,6 +243,7 @@ async function seed() {
     const passwordHash = await Admin.hashPassword('admin123');
     const admin = await Admin.create({
       username: 'admin',
+      email: process.env.ADMIN_EMAIL || 'amskrishna240@gmail.com',
       passwordHash
     });
     console.log('✅ Seeded admin user. Username: admin, Password: admin123');
