@@ -15,27 +15,33 @@ const router = express.Router();
 const loginLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 10,
-  message: { message: 'Too many login attempts. Please try again after 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).json({ message: 'Too many login attempts. Please try again after 15 minutes.' });
+  },
 });
 
-// Rate limit forgot-password: 3 per 15 minutes per IP
+// Rate limit forgot-password: 5 per 15 minutes per IP
 const forgotPasswordLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
-  max: 3,
-  message: { message: 'Too many reset attempts. Please try again after 15 minutes.' },
+  max: 5,
   standardHeaders: true,
   legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).json({ message: 'Too many reset attempts. Please try again after 15 minutes.' });
+  },
 });
 
 // Rate limit OTP verification: 5 per 15 minutes per IP
 const otpLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,
   max: 5,
-  message: { message: 'Too many verification attempts. Please try again after 15 minutes.' },
   standardHeaders: true,
   legacyHeaders: false,
+  handler: (req, res) => {
+    res.status(429).json({ message: 'Too many verification attempts. Please try again after 15 minutes.' });
+  },
 });
 
 router.post('/login', loginLimiter, login);
