@@ -1,33 +1,22 @@
-import nodemailer from 'nodemailer';
+import { Resend } from 'resend';
 
-/**
- * Creates a reusable SMTP transporter from environment variables.
- */
-function createTransporter() {
-  return nodemailer.createTransport({
-    host: process.env.SMTP_HOST || 'smtp.gmail.com',
-    port: parseInt(process.env.SMTP_PORT, 10) || 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: process.env.SMTP_USER,
-      pass: process.env.SMTP_PASS,
-    },
-    connectionTimeout: 10000, // 10s — fail fast if port is blocked
-    greetingTimeout: 10000,
-    socketTimeout: 15000,
-  });
-}
+// Lazy-initialized — dotenv hasn't run yet when ESM imports are resolved,
+// so we create the client on first use instead of at module top-level.
+let resend;
 
 /**
  * Sends a password-reset OTP to the specified email address.
+ * Uses Resend's HTTP API (port 443) instead of SMTP to bypass
+ * DigitalOcean's SMTP port restrictions.
  *
  * @param {string} toEmail - Recipient email address.
  * @param {string} otp     - The plaintext 6-digit OTP.
  * @returns {Promise<void>}
  */
 export async function sendResetOTP(toEmail, otp) {
-  const transporter = createTransporter();
-
+  if (!resend) {
+    resend = new Resend(process.env.RESEND_API_KEY);
+  }
   const html = `
     <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 480px; margin: 0 auto; background: #f8fafc; border-radius: 16px; overflow: hidden;">
       <!-- Header -->
@@ -66,10 +55,15 @@ export async function sendResetOTP(toEmail, otp) {
     </div>
   `;
 
-  await transporter.sendMail({
-    from: `"Portfolio Admin" <${process.env.SMTP_USER}>`,
+  const { error } = await resend.emails.send({
+    from: 'Portfolio Admin <onboarding@resend.dev>',
     to: toEmail,
     subject: 'Password Reset OTP — Admin Portal',
     html,
   });
+
+  if (error) {
+    console.error('Resend API error:', error);
+    throw new Error(error.message || 'Failed to send email via Resend.');
+  }
 }
